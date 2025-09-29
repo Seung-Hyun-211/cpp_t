@@ -4,10 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "Blueprint/UserWidget.h"
 #include "MyGameModeBase.generated.h"
 
-class UUserWidget;
 
 UCLASS()
 class CPP_T_API AMyGameModeBase : public AGameModeBase
@@ -24,6 +22,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+
 	UPROPERTY(VisibleAnywhere)
 	float Time;
 
@@ -33,7 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FText GetMyString();
 
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	//TSubclassOf<UUserWidget> WidgetClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UUserWidget> MyWidgetClass;
 };

@@ -5,8 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "InputActionValue.h"
-#include "MyPlayer.generated.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 
+#include "MyPlayer.generated.h"
 class UArrowComponent;
 class UBoxComponent;
 
@@ -36,6 +38,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void PostInitializeComponents() override;
+
 	void GetDamage(float Damage);
 
 	FVector2D direction;
@@ -45,12 +49,16 @@ public:
 	void Move(float DeltaTime);
 	UPROPERTY(VisibleAnywhere, Category = "Collision")
 	UBoxComponent* box;
-private:
-	UPROPERTY(VisibleAnywhere, Category = Input)
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	class UInputMappingContext* DefaultContext;
 
-	UPROPERTY(VisibleAnywhere, Category = Input)
+private:
+	float Hp;
+
+	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputAction* MoveAction;
 
-	float Hp;
+	void SetDirection(const FInputActionValue& InputValue);
 };

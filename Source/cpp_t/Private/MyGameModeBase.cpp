@@ -1,29 +1,48 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "MyGameModeBase.h"
 #include "Engine/Engine.h"
+#include "MyHUD.h"
 #include "MyPlayer.h"
+#include "MyPlayerController.h"
 
 AMyGameModeBase::AMyGameModeBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	DefaultPawnClass = AMyPlayer::StaticClass();
+	PlayerControllerClass = AMyPlayerController::StaticClass();
+	HUDClass = AMyHUD::StaticClass();
 
-	//static ConstructorHelpers::FClassFinder<UUserWidget> WidgetBPClass(TEXT("Content\Level\TestWidget.uasset"));
-	//if (WidgetBPClass.Class != nullptr)
-	//{
-	//	MyWidgetClass = WidgetBPClass.Class;
-	//}
-	//UUserWidget* Widget = CreateWidget<UUserWidget>(this, MyWidgetClass);
-	
+	// APawn 타입으로 찾기
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(
+		TEXT("/Game/MyMyPlayer"));
+
+	if (PlayerPawnBPClass.Class != nullptr)
+	{
+		DefaultPawnClass = PlayerPawnBPClass.Class;
+		UE_LOG(LogTemp, Warning, TEXT("✅ Blueprint Pawn loaded successfully!"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("❌ Failed to load Blueprint Pawn!"));
+		// 폴백: C++ 클래스 사용
+		DefaultPawnClass = AMyPlayer::StaticClass();
+	}
+
 }
 
 void AMyGameModeBase::BeginPlay()
 {
 
+}
+
+void AMyGameModeBase::PostLogin(APlayerController* NewPlayer)
+{
+	UE_LOG(LogTemp, Warning, TEXT("GameMode Before"));
+	Super::PostLogin(NewPlayer);
+	UE_LOG(LogTemp, Warning, TEXT("GameMode After"));
 }
 
 void AMyGameModeBase::Tick(float DeltaTime)
