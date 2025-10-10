@@ -14,7 +14,7 @@ AMyPlayer::AMyPlayer()
 	//박스 컴포넌트 추가, 루트설정
 	box = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
 	RootComponent = box;
-	
+
 	//메쉬 추가
 	visualMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualMesh"));
 	visualMesh->SetCollisionProfileName(TEXT("Player"));
@@ -52,6 +52,11 @@ AMyPlayer::AMyPlayer()
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+
+	box->OnComponentBeginOverlap.AddDynamic(this, &AMyPlayer::OverlapBegin);
+	box->OnComponentEndOverlap.AddDynamic(this, &AMyPlayer::OverlapEnd);
+
 
 	moveSpeed = 20.0f;
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
@@ -121,4 +126,14 @@ void AMyPlayer::SetDirection(const FInputActionValue& InputValue)
 		direction = MoveVector.GetSafeNormal();
 		UE_LOG(LogTemp, Warning, TEXT("%f, %f"), direction.X, direction.Y);
 	}
+}
+
+void AMyPlayer::OverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UE_LOG(LogTemp, Warning, TEXT("End Overlap !!!"));
+}
+
+void AMyPlayer::OverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	UE_LOG(LogTemp, Warning, TEXT("!!! Begin Overlap"));
 }

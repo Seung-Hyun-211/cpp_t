@@ -26,8 +26,6 @@ AMyGameModeBase::AMyGameModeBase()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("❌ Failed to load Blueprint Pawn!"));
-		// 폴백: C++ 클래스 사용
 		DefaultPawnClass = AMyPlayer::StaticClass();
 	}
 
