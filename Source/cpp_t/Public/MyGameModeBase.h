@@ -25,6 +25,12 @@ public:
 
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UMyUserWidget> mainWidget;
+
+	class UMyUserWidget* mainUI;
+
 	UPROPERTY(VisibleAnywhere)
 	float Time;
 

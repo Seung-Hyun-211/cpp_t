@@ -6,14 +6,25 @@
 #include "MyHUD.h"
 #include "MyPlayer.h"
 #include "MyPlayerController.h"
+#include "MyUserWidget.h"
 
 AMyGameModeBase::AMyGameModeBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	PlayerControllerClass = AMyPlayerController::StaticClass();
-	HUDClass = AMyHUD::StaticClass();
+
+	static ConstructorHelpers::FClassFinder<APlayerController> MyPlayerControllerClass(TEXT("/Game/MyMyPlayerController.MyMyPlayerController_C"));
+	if (MyPlayerControllerClass.Succeeded())
+	{
+		PlayerControllerClass = MyPlayerControllerClass.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<UMyUserWidget> MyWidget(TEXT("/Game/MyMyUserWidget.MyMyUserWidget_C"));
+	if (MyWidget.Succeeded())
+	{
+		mainWidget = MyWidget.Class;
+	}
 
 	// APawn 타입으로 찾기
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(
@@ -22,7 +33,7 @@ AMyGameModeBase::AMyGameModeBase()
 	if (PlayerPawnBPClass.Class != nullptr)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
-		UE_LOG(LogTemp, Warning, TEXT("✅ Blueprint Pawn loaded successfully!"));
+		UE_LOG(LogTemp, Warning, TEXT("Pawn load!"));
 	}
 	else
 	{
@@ -33,7 +44,14 @@ AMyGameModeBase::AMyGameModeBase()
 
 void AMyGameModeBase::BeginPlay()
 {
-
+	if (mainWidget != nullptr)
+	{
+		mainUI = CreateWidget<UMyUserWidget>(GetWorld(), mainWidget);
+		if (mainUI != nullptr)
+		{
+			mainUI->AddToViewport();
+		}
+	}
 }
 
 void AMyGameModeBase::PostLogin(APlayerController* NewPlayer)
@@ -47,6 +65,8 @@ void AMyGameModeBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	Time += DeltaTime;
+	
+	mainUI->MyTextBlock->SetText(FText::AsNumber(Time));
 }
 
 FText AMyGameModeBase::GetMyString()

@@ -5,6 +5,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
+
+#include "MyPlayerController.h"
 #include "Components/BoxComponent.h"
 
 // Sets default values
@@ -57,7 +59,6 @@ void AMyPlayer::BeginPlay()
 	box->OnComponentBeginOverlap.AddDynamic(this, &AMyPlayer::OverlapBegin);
 	box->OnComponentEndOverlap.AddDynamic(this, &AMyPlayer::OverlapEnd);
 
-
 	moveSpeed = 20.0f;
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{	
@@ -68,6 +69,7 @@ void AMyPlayer::BeginPlay()
 			UE_LOG(LogTemp, Warning, TEXT("Added Mapping Context"));
 		}
 	}
+
 }
 
 
