@@ -1,6 +1,15 @@
 
-class CharacterStats
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Pawn.h"
+#include "BaseCharacter.generated.h"
+
+UCLASS()
+class CPP_T_API ABaseCharacter :public APawn
 {
+	GENERATED_BODY()
+
 public:
 	struct Stat
 	{
@@ -43,10 +52,20 @@ public:
 			isImmediateDamage{ immediate } {}
 		};
 
-	CharacterStats();
-	CharacterStats(const Stat& st, const Health& he);
-	CharacterStats(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate);
-	~CharacterStats();
+	ABaseCharacter();
+	ABaseCharacter(const Stat& st, const Health& he);
+	ABaseCharacter(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate);
+	~ABaseCharacter();
+
+protected:
+	virtual void BeginPlay() override;
+
+public:
+	virtual void Tick(float DeltaTime) override;
+
+
+
+public:
 
 	//stat getter
 	int GetStrength() const { return stat.strength; }
@@ -67,7 +86,7 @@ public:
 	/// 현재 체력 감소
 	/// </summary>
 	/// <param name="damage"></param>
-	void TakeDamage(int damage);
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	/// <summary>
 	/// 최대 체력 증감
 	/// </summary>

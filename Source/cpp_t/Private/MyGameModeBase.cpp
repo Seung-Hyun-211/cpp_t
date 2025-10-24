@@ -8,8 +8,6 @@
 #include "MyPlayerController.h"
 #include "MyUserWidget.h"
 
-#include "HealthSystem.h"
-
 
 AMyGameModeBase::AMyGameModeBase()
 {
@@ -43,7 +41,6 @@ AMyGameModeBase::AMyGameModeBase()
 		DefaultPawnClass = AMyPlayer::StaticClass();
 	}
 
-	playerHp = new HealthSystem();
 }
 
 void AMyGameModeBase::BeginPlay()
@@ -82,10 +79,8 @@ FText AMyGameModeBase::GetMyString()
 
 void AMyGameModeBase::CalculateHp(float fDeltatime)
 {
-	float beforeHp = playerHp->GetCurrentHp();
 	bool isChanged = false;
 
-	playerHp->ChangeCurHpPerSec(fDeltatime);
 
 	if (isChanged)
 	{

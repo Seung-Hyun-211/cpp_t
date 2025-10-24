@@ -1,31 +1,43 @@
-#include "CharacterStats.h"
+#include "BaseCharacter.h"
 
-CharacterStats::CharacterStats()
+void ABaseCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+}
+void ABaseCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+
+	ChangeCurHpPerSec(DeltaTime);
+}
+ABaseCharacter::ABaseCharacter()
 {
 	stat = Stat();
 	health = Health();
 }
 
-CharacterStats::CharacterStats(const Stat& st, const Health& he) :stat{ st }, health{he}
+ABaseCharacter::ABaseCharacter(const Stat& st, const Health& he) :stat{ st }, health{he}
 {
 }
 
-CharacterStats::CharacterStats(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate)
+ABaseCharacter::ABaseCharacter(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate)
 {
 	stat = Stat(str, end, agi, intelli, physical, magical);
 	health = Health(max, current, limit, change, immediate);
 }
 
-CharacterStats::~CharacterStats()
+ABaseCharacter::~ABaseCharacter()
 {
 }
 
-void CharacterStats::TakeDamage(int damage)
+float ABaseCharacter::TakeDamage(float damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	AddCurHp(-damage);
+	return Super::TakeDamage(damage, DamageEvent, EventInstigator, DamageCauser);
 }
 
-void CharacterStats::AddMaxHp(int amount, bool withHeal)
+void ABaseCharacter::AddMaxHp(int amount, bool withHeal)
 {
 	if (health.maxHp + amount <= 0)
 	{
@@ -39,7 +51,7 @@ void CharacterStats::AddMaxHp(int amount, bool withHeal)
 	}
 }
 
-void CharacterStats::AddLimit(int amount)
+void ABaseCharacter::AddLimit(int amount)
 {
 	if (health.hpLimit + amount >= health.maxHp)
 	{
@@ -57,7 +69,7 @@ void CharacterStats::AddLimit(int amount)
 	}
 }
 
-void CharacterStats::ChangeCurHpPerSec(float deltaTime)
+void ABaseCharacter::ChangeCurHpPerSec(float deltaTime)
 {
 	health.recoverTime += deltaTime;
 	if (!health.isDead && health.recoverTime >= 1.0f)
@@ -67,7 +79,7 @@ void CharacterStats::ChangeCurHpPerSec(float deltaTime)
 	}
 }
 
-void CharacterStats::AddCurHp(int amount)
+void ABaseCharacter::AddCurHp(int amount)
 {
 	int addedHp = health.currentHp + amount;
 	if (addedHp <= 0)
