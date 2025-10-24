@@ -1,5 +1,27 @@
 #include "BaseCharacter.h"
 
+ABaseCharacter::ABaseCharacter()
+{
+	stat = Stat();
+	health = Health();
+}
+
+void ABaseCharacter::InitializeStat(const Stat& st, const Health& he)
+{
+	stat = st;
+	health = he;
+}
+
+void ABaseCharacter::InitializeStat(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate)
+{
+	stat = Stat(str, end, agi, intelli, physical, magical);
+	health = Health(max, current, limit, change, immediate);
+}
+
+ABaseCharacter::~ABaseCharacter()
+{
+}
+
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -10,25 +32,6 @@ void ABaseCharacter::Tick(float DeltaTime)
 
 
 	ChangeCurHpPerSec(DeltaTime);
-}
-ABaseCharacter::ABaseCharacter()
-{
-	stat = Stat();
-	health = Health();
-}
-
-ABaseCharacter::ABaseCharacter(const Stat& st, const Health& he) :stat{ st }, health{he}
-{
-}
-
-ABaseCharacter::ABaseCharacter(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate)
-{
-	stat = Stat(str, end, agi, intelli, physical, magical);
-	health = Health(max, current, limit, change, immediate);
-}
-
-ABaseCharacter::~ABaseCharacter()
-{
 }
 
 float ABaseCharacter::TakeDamage(float damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

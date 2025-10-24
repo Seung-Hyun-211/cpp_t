@@ -53,9 +53,10 @@ public:
 		};
 
 	ABaseCharacter();
-	ABaseCharacter(const Stat& st, const Health& he);
-	ABaseCharacter(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate);
 	~ABaseCharacter();
+
+	void InitializeStat(const Stat& st, const Health& he);
+	void InitializeStat(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate);
 
 protected:
 	virtual void BeginPlay() override;
