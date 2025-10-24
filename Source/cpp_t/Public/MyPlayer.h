@@ -62,7 +62,6 @@ public:
 	void OverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 private:
-	float Hp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputAction* MoveAction;

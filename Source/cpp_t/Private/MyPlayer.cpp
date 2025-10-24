@@ -31,7 +31,6 @@ AMyPlayer::AMyPlayer()
 		visualMesh->SetWorldScale3D(FVector(1.3f)); // 크기 조정
 	}
 
-	Hp = 10.0f;
 	//static ConstructorHelpers::FObjectFinder<UInputMappingContext>DEFAULT_CONTEXT
 	//(TEXT("/Game/Inputs/IMC_Default"));
 	//if (DEFAULT_CONTEXT.Succeeded())
@@ -82,8 +81,7 @@ void AMyPlayer::Tick(float DeltaTime)
 }
 void AMyPlayer::GetDamage(float Damage)
 {
-	Hp -= Damage;
-	UE_LOG(LogTemp, Warning, TEXT("current Hp : %f"),Hp);
+
 }
 // Called to bind functionality to input
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

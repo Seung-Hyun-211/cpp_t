@@ -8,11 +8,14 @@
 #include "MyPlayerController.h"
 #include "MyUserWidget.h"
 
+#include "HealthSystem.h"
+
+
 AMyGameModeBase::AMyGameModeBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
-
+	
 
 	static ConstructorHelpers::FClassFinder<APlayerController> MyPlayerControllerClass(TEXT("/Game/MyMyPlayerController.MyMyPlayerController_C"));
 	if (MyPlayerControllerClass.Succeeded())
@@ -40,6 +43,7 @@ AMyGameModeBase::AMyGameModeBase()
 		DefaultPawnClass = AMyPlayer::StaticClass();
 	}
 
+	playerHp = new HealthSystem();
 }
 
 void AMyGameModeBase::BeginPlay()
@@ -67,10 +71,24 @@ void AMyGameModeBase::Tick(float DeltaTime)
 	Time += DeltaTime;
 	
 	mainUI->MyTextBlock->SetText(FText::AsNumber(Time));
+	CalculateHp(DeltaTime);
 }
 
 FText AMyGameModeBase::GetMyString()
 {
 	FString test = FString::Printf(TEXT("%.2f"), Time);
 	return FText::FromString(test);
+}
+
+void AMyGameModeBase::CalculateHp(float fDeltatime)
+{
+	float beforeHp = playerHp->GetCurrentHp();
+	bool isChanged = false;
+
+	playerHp->ChangeCurHpPerSec(fDeltatime);
+
+	if (isChanged)
+	{
+		//mainUI->SetHpStatus(playerHp->GetMaxHp(), playerHp->GetCurrentHp(), playerHp->GetHpLimit());
+	}
 }

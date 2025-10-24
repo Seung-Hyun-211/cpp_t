@@ -25,6 +25,7 @@ public:
 
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 
+	
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UMyUserWidget> mainWidget;
@@ -42,5 +43,11 @@ public:
 
 	//UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	//TSubclassOf<UUserWidget> WidgetClass;
+
+
+private:
+	class HealthSystem* playerHp;
+
+	void CalculateHp(float fDeltatime);
 
 };

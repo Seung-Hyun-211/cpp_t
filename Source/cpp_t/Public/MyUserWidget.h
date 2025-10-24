@@ -24,6 +24,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetBlockText(const FText InputText);
 
+	void SetHpStatus(float fMaxHp, float fCurrentHp, float fLimit) {};
+
 	virtual void NativeConstruct() override;
 
 };
