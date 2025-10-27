@@ -2,20 +2,20 @@
 
 ABaseCharacter::ABaseCharacter()
 {
-	stat = Stat();
-	health = Health();
+	stat = FStat();
+	health = FHealth();
 }
 
-void ABaseCharacter::InitializeStat(const Stat& st, const Health& he)
+void ABaseCharacter::InitializeStat(const FStat& st, const FHealth& he)
 {
 	stat = st;
 	health = he;
 }
 
-void ABaseCharacter::InitializeStat(int str, int end, int agi, int intelli, int physical, int magical, int max, int current, int limit, int change, bool immediate)
+void ABaseCharacter::InitializeStat(int str, int end, int agi, int intelli, int physicalDmg, int magicalDmg, int physicalDef, int magicalDef, int max, int current, int limit, int change, bool immediate)
 {
-	stat = Stat(str, end, agi, intelli, physical, magical);
-	health = Health(max, current, limit, change, immediate);
+	stat = FStat(str, end, agi, intelli, physicalDmg, magicalDmg, physicalDef, magicalDef);
+	health = FHealth(max, current, limit, change, immediate);
 }
 
 ABaseCharacter::~ABaseCharacter()
