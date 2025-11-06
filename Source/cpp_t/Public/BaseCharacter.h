@@ -16,19 +16,23 @@ public:
 	ABaseCharacter();
 	~ABaseCharacter();
 
-	void InitializeStat(const FStat& st, const FHealth& he);
-	void InitializeStat(int str, int end, int agi, int intelli, int physicalDmg, int magicalDmg, int physicalDef, int magicalDef, int max, int current, int limit, int change, bool immediate);
 
 protected:
 	virtual void BeginPlay() override;
 
 public:
 	virtual void Tick(float DeltaTime) override;
-
+	virtual void Attack();
 
 
 public:
 	TArray<int, int> array;
+
+	void InitializeStat(const FStat& st, const FHealth& he);
+	void InitializeStat(int str, int end, int agi, int intelli, int physicalDmg, int magicalDmg, int physicalDef, int magicalDef, int max, int current, int limit, int change, bool immediate);
+
+
+public:
 	//stat getter
 	int GetStrength() const { return stat.strength; }
 	int GetEndurance() const { return stat.endurance; }
@@ -74,14 +78,14 @@ public:
 
 
 private:
+	FStat stat;
+	FHealth health;
+
+private:
 	/// <summary>
 	/// currentHp 증감
 	/// </summary>
 	/// <param name="amount">증감 수치</param>
 	void AddCurHp(int amount);
 
-
-private:
-	FStat stat;
-	FHealth health;
 };
