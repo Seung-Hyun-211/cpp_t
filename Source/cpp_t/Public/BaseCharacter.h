@@ -22,12 +22,10 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
-	virtual void Attack();
+	//virtual void Attack();
 
 
 public:
-	TArray<int, int> array;
-
 	void InitializeStat(const FStat& st, const FHealth& he);
 	void InitializeStat(int str, int end, int agi, int intelli, int physicalDmg, int magicalDmg, int physicalDef, int magicalDef, int max, int current, int limit, int change, bool immediate);
 
